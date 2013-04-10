@@ -27,13 +27,20 @@ class rabbitmq
     }
 
     service {
+        'qpidd':
+            ensure => false,
+            enable => false;
+    }
+
+    service {
         'rabbitmq-server':
             ensure => true,
             enable => true,
             hasrestart => true,
             hasstatus => true,
             subscribe => [
-                Package["rabbitmq-server"]
+                Package["rabbitmq-server"],
+                Service['qpidd']
             ];
     }
 }
